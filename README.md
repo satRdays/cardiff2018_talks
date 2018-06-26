@@ -22,3 +22,12 @@ satRday 2018 was held on the 23 June 2018 at Cardiff University, organised by [C
     + Remeber to use relative paths, not absolute paths, as anyone using your code will not have your exact directory structure 
         + [Here is a youtube video on RStudio and working directories](https://www.youtube.com/watch?v=fe6GA200dks) (this video is for mac/*nix, windows will be slightly different as it does not support "/" or "~")
 * If you have problems with the above, I'm happy to help you, or find an alternative solution to link your great material to this repo, let me know by email
+
+## Other data focused groups in the area
+
+* [PyData](https://www.meetup.com/PyData-Cardiff-Meetup/)
+* [AI Wales](https://www.meetup.com/AI-Wales/)
+* [South West Data](https://www.meetup.com/south-west-data/)
+
+## R organisations that supported the conference
+* [foRwards](https://forwards.github.io/)
