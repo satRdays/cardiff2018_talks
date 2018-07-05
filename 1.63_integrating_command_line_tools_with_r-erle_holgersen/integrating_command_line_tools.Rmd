@@ -1,0 +1,77 @@
+---
+title: "Integrating R and Command Line Tools"
+author: "Erle Holgersen"
+date: '2018-06-23'
+output: 
+    ioslides_presentation
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## About Me
+
+
+- Master's degree in statistics – used lots of R
+```{r, eval=FALSE, echo=TRUE}
+library(survival)
+data(pbc)
+model <- coxph(Surv(time, status) ~ age + albumin, pbc)
+```
+
+- Got a job doing bioinformatics – still doing lots of R
+```
+GATTTGGGGTTCAAAGCAGTATCGATCAAATAGTAAATCCATTTGTTCAACTCACA
+```
+- **Bioinformatics** = analysis of biological data with computers
+- Or, **bioinformatician** = data scientist who doesn’t use SQL
+
+
+## Case Study: Tabulating Files
+
+- 551 files, 41 GB; count lines with zeros
+```
+chr8    127735434   127741434   0
+chr8    127741434   127850293   1
+```
+
+- Naive R approach with **data.table** is easy to implement
+
+```{r,eval=FALSE, echo = TRUE}
+for(filename in list.files() ) {
+    input_data <- fread(filename)
+    n_zeros <- sum(0 == input_data[[4]])
+}
+```
+- ... but takes over 10 hours to run
+
+## Case Study: Introducing awk
+
+- Can write the same code in bash
+```{bash, eval = FALSE, echo = TRUE}
+for file in `ls`; do
+    n_zeros=`awk '$4==0 {i++} END {print i}' $file`;
+done
+```
+
+- Runs in minutes, not hours – but what about everything else we want to do?
+- Hybrid approach: keep the R code, call `awk` with `system()`
+```{r,eval=FALSE, echo = TRUE}
+for(filename in list.files() ) {
+    awk <- paste("awk '$4==0 {i++} END {print i}'", filename)
+    n_zeros <- system(awk, intern = TRUE)
+}
+```
+
+## Strategies
+
+
+- `system(…, intern = TRUE)`
+- **data.table**: `fread("expression goes here")`
+- `tempfile()`
+
+## Conclusion
+
+- Command line tools can speed up bottlenecks
+- Keep it simple: If there's anything you don't know how to implement in bash, you can do it in R
